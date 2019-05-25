@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="singlepayload" doc:id="b2b7cf71-d109-4052-8e27-4ad9f0a25a64" >
+		<http:listener doc:name="Listener" doc:id="23580dff-c5ce-4e75-9b43-2c7f25013887" config-ref="HTTP_Listener_config" path="/singlepayload"/>
+		<set-payload value="My payload" doc:name="My payload" doc:id="11980c8c-d214-4018-95d8-3073c531037e" />
+	</flow>
+	<flow name="multiplePayload" doc:id="d6de4e7b-1065-485e-b79b-742a5af784d7" >
+		<http:listener doc:name="Listener" doc:id="d534d23d-b2f0-4c19-87bd-de9d6a3cc958" config-ref="HTTP_Listener_config" path="/multiplepayload"/>
+		<set-payload value='First value for my payload' doc:name="first change" doc:id="f3d745d8-f06d-4563-a5f1-14b974d052a4" />
+		<set-payload value='Second value for payload!' doc:name="second change" doc:id="ec25c051-9928-48cf-ad2b-56dabd369af0" mimeType="text/plain"/>
+	</flow>
+</mule>
