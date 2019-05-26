@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="validators" doc:id="5abed2d1-8fb2-40bf-8419-f53b44b415e9" >
+		<http:listener doc:name="Listener" doc:id="7c3a6e87-3ae4-4fea-bbce-093cbb63014d" config-ref="HTTP_Listener_config" path="/validators"/>
+		<flow-ref doc:name="initialize-variables" doc:id="25f4d842-a5f5-4725-8881-27aa3b27daf2" name="initialize-variables"/>
+		<validation:all doc:name="Validate variables" doc:id="6c5795ba-72a6-434a-a9a3-cb66e4c3506c" >
+			<validation:is-not-blank-string doc:name="vars.name is not blank" doc:id="bde3f7d8-0505-4d16-a964-d4d303680194" config-ref="Validation_Config" value="#[vars.name]" message="Name cannot be blank!"/>
+			<validation:is-email doc:name="vars.email is a valid email" doc:id="9acaa711-2b36-4982-a673-c95bbc777682" config-ref="Validation_Config" email="#[vars.email]" message="Email must be a valid e-mail address!"/>
+			<validation:is-number doc:name="vars.age is a valid number" doc:id="de4d2e7d-92e9-4724-adbf-223bf579f01c" config-ref="Validation_Config" value="#[vars.age]" numberType="INTEGER" message="Age must be a number!"/>
+		</validation:all>
+		<set-payload value="Validated with success!" doc:name="Validated with success!" doc:id="55ed5518-24af-45cc-b4b1-d77c893267e8" />
+	</flow>
+	<sub-flow name="initialize-variables" doc:id="bc04eb11-ad30-4e37-929a-2c4e89388088" >
+		<set-variable doc:name="name" doc:id="68e8d579-a1dd-4265-9f03-9b1ae4dea4a8" variableName="name" value='John Doe'/>
+		<set-variable value="john@doe.com" doc:name="email" doc:id="d7694ac4-8df2-467f-9bd3-5502dcb1ea92" variableName="email"/>
+		<set-variable value="27" doc:name="age" doc:id="3c52ad6e-5ada-4148-9755-98b1c6e9c074" variableName="age"/>
+	</sub-flow>
+</mule>
