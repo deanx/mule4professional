@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="variables" doc:id="2ae8a52a-0b16-4ef2-8036-a43a8dd40132" >
+		<http:listener doc:name="Listener" doc:id="592e7a89-235b-4836-ba91-ce43d43a8323" config-ref="HTTP_Listener_config" path="/variables"/>
+		<set-variable value="that is my var!" doc:name="myvar" doc:id="97cff1bf-713d-4464-b08d-6bc21ca7024c" variableName="myvar"/>
+		<logger level="INFO" doc:name="myvar" doc:id="673af22a-60c4-43c2-a02f-ee23ae5345ca" message="#[vars.myvar]"/>
+		<set-payload value="#[vars.myvar]" doc:name="vars.myvar" doc:id="5c5b5ec6-ffc6-4e55-bd1d-319526b59a83" />
+		<logger level="INFO" doc:name="payload" doc:id="f129dabc-02d5-4fbf-b0e7-27f9d4fc77c7" message="#[payload]"/>
+		<remove-variable doc:name="myvar" doc:id="4174c32c-0c00-4fd8-80e0-129a5e111549" variableName="myvar"/>
+		<logger level="INFO" doc:name="myvar vars.myvar" doc:id="c759530a-7ebb-49a0-9e9b-e639276cfeb1" message='#["myvar" ++ vars.myvar?]'/>
+	</flow>
+</mule>

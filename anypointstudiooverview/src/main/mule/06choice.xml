@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="choice" doc:id="92679127-faa8-4c3d-b5d3-b39f0ee608b5" >
+		<http:listener doc:name="Listener" doc:id="06ad1cbb-4226-41f3-9e42-eff65c3b6101" config-ref="HTTP_Listener_config" path="/choice"/>
+		<flow-ref doc:name="whoIsMyArtist" doc:id="526b7240-1af1-4e42-b2ba-0c224609774e" name="whoIsMyArtist"/>
+		<choice doc:name="Choice" doc:id="c140ae3d-5edf-44c8-91b1-e21e9acd6bf9" >
+			<when expression='#[vars.artist == "John Lennon"]'>
+				<set-payload value="It's a Beatle!" doc:name="Beatle" doc:id="50184b4d-1d05-493f-aa00-a1af8b906460" />
+			</when>
+			<when expression='#[vars.artist == "Mick Jagger"]'>
+				<set-payload value="It's a Rolling Stone" doc:name="Rolling Stone" doc:id="2c0de3a6-6b80-4403-8437-5ae550df04f3" />
+			</when>
+			<otherwise >
+				<set-payload value="Just a mortal" doc:name="Mortal" doc:id="3899fc8a-5695-43ae-bce4-d47104cc7b3b" />
+			</otherwise>
+		</choice>
+	</flow>
+	<sub-flow name="whoIsMyArtist" doc:id="88f6afe7-2080-417f-a1c6-f8d7f15ed8ed" >
+		<set-variable value="John Lennon" doc:name="artist" doc:id="c975d4e8-a3b8-48b2-b0ca-c29a71a458e2" variableName="artist"/>
+		<logger level="INFO" doc:name="vars.artist" doc:id="8aa94c27-9066-4e0c-8288-5d53d0a74c42" message="#[vars.artist]"/>
+	</sub-flow>
+</mule>

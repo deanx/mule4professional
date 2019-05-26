@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="foreach" doc:id="7bc83513-0c01-4ab7-8ee7-3993c2a739e0" >
+		<http:listener doc:name="" doc:id="3e1de1c0-416d-4a32-95e2-af9d4f014134" config-ref="HTTP_Listener_config" path="/foreach"/>
+		<flow-ref doc:name="artists" doc:id="ee9b8548-3094-4706-af0a-2a34e7cf9d00" name="artists"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4cc1c1b5-362d-445c-a6bd-b453b8d82c46" message="Beatles?"/>
+		<foreach doc:name="For Each vars.artists" doc:id="01e23987-939d-46b8-a6cd-020792d5e957" collection="vars.artists">
+			<logger level="INFO" doc:name="Logger" doc:id="d7e3fe5a-096f-4f77-97ba-dace51935430" message="#[payload]"/>
+		</foreach>
+		<set-payload value='#[vars.artists joinBy " "]' doc:name="vars.artists" doc:id="643ceba9-1ee6-4ac0-974c-e68f6aae6a12" mimeType="text/plain"/>
+	</flow>
+	<sub-flow name="artists" doc:id="c9096923-2052-4687-b5c0-8430fd9db948" >
+		<set-variable value='#[["John", "Paul", "George", "Ringo"]]' doc:name="artists" doc:id="90a418a3-374a-48ec-ae2e-07f9f1bc86e0" variableName="artists"/>
+	</sub-flow>
+</mule>
