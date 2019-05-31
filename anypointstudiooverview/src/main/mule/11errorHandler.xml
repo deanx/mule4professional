@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<flow name="errorHandler" doc:id="d0236a39-afe1-493f-9eb6-8cab934c8b4d" >
+		<http:listener doc:name="Listener" doc:id="e7e54f40-c81c-4251-a955-451fae938baf" config-ref="HTTP_Listener_config" path="/errorhandlerscope"/>
+		<raise-error doc:name="Raise error" doc:id="60e0c015-2ac8-4652-8fa7-6e337abac271" type="MY:ERROR" description="that is my error"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e3b32d09-f3d4-4aab-8e33-ae0595f5cce9" message="Hi from Error Handler Scope flow"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a21d64e5-d108-49da-a404-127ef0b25836" >
+				<logger level="INFO" doc:name="Logger" doc:id="35225939-f753-46f1-86fb-e4eb595b07bd" message="Hi from Error Handler"/>
+				<choice doc:name="Choice" doc:id="38fc20c0-ee34-41f7-b9e2-e5e03408c9e1" >
+					<when expression='#[write(error.errorType, "applicataion/java") == "MY:ERROR"]'>
+						<logger level="INFO" doc:name="Logger" doc:id="85aaec08-b026-443a-a194-46b94d335f5e" message="that is MY ERROR!"/>
+						<set-payload value="An error happened" doc:name="Set Payload" doc:id="0f29cf8e-091b-437a-ad85-350fb6d1d0d6" />
+					</when>
+					<otherwise >
+						<logger level="INFO" doc:name="Logger" doc:id="87df532e-1d97-4b02-ba55-d78359ba85ea" message="nosso erro"/>
+					</otherwise>
+				</choice>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

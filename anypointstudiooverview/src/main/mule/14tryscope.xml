@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="tryscope" doc:id="fd26fa3a-d896-4d78-bca6-42f992edbac1" >
+		<http:listener doc:name="Listener" doc:id="d8d52921-bd0d-486a-a652-3972b449f172" config-ref="HTTP_Listener_config" path="/tryscope"/>
+		<try doc:name="Try" doc:id="4eb3671b-2c4a-4405-ae34-1463d4dd7c1a" >
+			<logger level="INFO" doc:name="Logger" doc:id="c1093b84-d339-42b9-8b06-06dd579a6a3d" message="inside try scope"/>
+			<raise-error doc:name="Raise error" doc:id="5ced17b9-77fc-45f5-8727-157eb494fa99" type="MY:ERROR"/>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="99719151-94ba-48f2-919f-5c086f8f42ed" >
+					<logger level="INFO" doc:name="Logger" doc:id="1803bb6d-6e2b-465f-9070-c3b0fad7a9c1" message="do what you need about this error!"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+	</flow>
+</mule>

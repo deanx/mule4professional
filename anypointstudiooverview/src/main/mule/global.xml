@@ -9,4 +9,10 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="68ebe6aa-b36f-4585-9aad-30d03151f3a8" />
+	<configuration doc:name="Configuration" doc:id="140d0574-a2a7-4626-920a-c49f23a659f0" defaultErrorHandler-ref="globalError_Handler" />
+	<error-handler name="globalError_Handler" doc:id="60717b36-1f02-4ee9-a8bc-a41121fae30c" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0cb0da16-07f8-4a2f-9280-25aef695c9a6" type="OTHER:ERROR">
+			<logger level="INFO" doc:name="Logger" doc:id="0948baf4-484f-46a7-88d6-1d13cba79deb" message="Generic error occurred!"/>
+		</on-error-propagate>
+	</error-handler>
 </mule>

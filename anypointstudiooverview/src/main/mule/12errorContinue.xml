@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="errorContinue" doc:id="18477d26-6bb1-44ef-ac6e-8d77f0e55e93" >
+		<http:listener doc:name="Listener" doc:id="4f902113-a415-47be-b1a2-cdb245b226f0" config-ref="HTTP_Listener_config" path="/errorcontinue"/>
+		<logger level="INFO" doc:name="Logger" doc:id="69077252-5f8f-4b8c-b1e2-b72a5071e0c3" message="Hello from on error continue example"/>
+		<flow-ref doc:name="Flow Reference" doc:id="d2fd5469-266d-4627-b21d-8a12daea83fb" name="errorContinueThrow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5347a730-474e-448b-b971-26dc4b903b2f" message="after flow reference" />
+		<set-payload value="by life goes" doc:name="Set Payload" doc:id="03c03e24-6971-49f1-8cc3-6360f746e684" />
+	</flow>
+	<flow name="errorContinueThrow" doc:id="4a64aaa8-3089-4200-bf3b-fe4eb3349330" >
+		<raise-error doc:name="Raise error" doc:id="ad7dec57-7b3d-4865-be62-357292e24057" type="MY:ERROR"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="8a614796-1aa8-4aa1-8490-0e22b5fe6026" >
+				<logger level="INFO" doc:name="Logger" doc:id="5e923a6b-8b25-4a33-ba5a-1045cc7895d1" message="Hello from On Error Continue Error Handler"/>
+				<set-payload value="Error happened" doc:name="Set Payload" doc:id="320bcdef-6798-4c36-8506-c8fae204b258" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

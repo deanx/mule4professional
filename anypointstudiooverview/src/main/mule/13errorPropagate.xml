@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="errorPropagate" doc:id="4c4dbdfc-654c-4cd4-b2fc-813808ae6a38" >
+		<http:listener doc:name="Listener" doc:id="45a72c09-56f0-46c8-9a15-5229473400e6" config-ref="HTTP_Listener_config" path="/errorpropagate"/>
+		<logger level="INFO" doc:name="Logger" doc:id="1198ef27-c6e4-4e52-98ac-ef7008f9d7b5" message="Hello from error propagate"/>
+		<flow-ref doc:name="Flow Reference" doc:id="cd642369-be9e-4bfd-bbca-f27d928edc54" name="errorPropagateThrow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2184c09e-1a99-4ee2-9ac7-ccaaf3a1e0a4" message="after flow reference"/>
+		<set-payload value="life goes?" doc:name="Set Payload" doc:id="86f333ef-cace-471d-9023-4dd29ec16371" />
+	</flow>
+	<flow name="errorPropagateThrow" doc:id="c73507ea-93bf-4c9e-ab31-847388384738" >
+		<raise-error doc:name="Raise error" doc:id="3432c14e-601e-4053-81e6-0966f6d58888" type="MY:ERROR"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="705ae6b2-28a4-46c5-be62-70afe8fe10ac" >
+				<logger level="INFO" doc:name="Logger" doc:id="572ec2b7-c7ea-4ed0-9611-ff16030cf74c" message='#["Hello from On Error Propagate Error Handler: " ++ write(error.description, "application/java")]'/>
+				<set-payload value="Error happened and propagated" doc:name="Set Payload" doc:id="5d332e43-cfd7-4cc7-8bde-6f232fbed184" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

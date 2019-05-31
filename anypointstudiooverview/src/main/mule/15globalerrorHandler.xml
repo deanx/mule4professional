@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="15globalerrorHandler" doc:id="3e18a01d-ff8d-433d-a294-223cd981dd34">
+		<http:listener doc:name="Listener" doc:id="e0174455-95e1-4da9-8423-20cc0af15ebb" config-ref="HTTP_Listener_config" path="/globalerrorhandler" />
+		<logger level="INFO" doc:name="Logger" doc:id="03488a63-69a9-4e1b-9e4a-1eaa430e7770" message="lets raise an error!" />
+		<flow-ref doc:name="Flow Reference" doc:id="ca8c8e09-4be8-4242-9e44-79624bfb356b" name="globalErrorHandlerThrow" />
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4b1e7061-31c4-4270-b2bf-84d91240856f" type="MY:ERROR">
+				<logger level="INFO" doc:name="Logger" doc:id="943fb69e-631a-46c7-b632-49a2961abbf9" message="capturing MY:ERROR" />
+				<set-payload value="that was my error...That is OK!" doc:name="Set Payload" doc:id="0a955c16-c644-4c9e-8489-11dfe1b57d95" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="globalErrorHandlerThrow" doc:id="df1c9a31-17b1-4707-b209-bb68fbffa5fe" >
+		<choice doc:name="Choice" doc:id="8dbac689-f7c0-4fe5-b689-491476db19d3">
+			<when expression='#[attributes.queryParams."error" == "mine"]'>
+				<raise-error doc:name="Raise error" doc:id="7a6d5b2c-18d5-44db-8dba-2bf5492461d0" type="MY:ERROR" />
+			</when>
+			<otherwise>
+				<raise-error doc:name="Raise error" doc:id="11c506c4-d5af-4c98-b6d5-7a303315dd5d" type="OTHER:ERROR" />
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
